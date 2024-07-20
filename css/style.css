@@ -1,0 +1,23 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #ddd;
+}
+
+.todo-container {
+    display: grid;
+    gap: .5rem;
+    justify-content: center;
+}
+
+.todolist-header {
+    text-align: center;
+    background-color: #121212;
+    color: whitesmoke;
+    padding: 1em;
+}
+

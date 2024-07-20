@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<style>
+    @import url('css/style.css');
+</style>
+
+<body>
+    <div class="container">
+        <header class="todolist-header">
+            <h1 class="title">ToDo-List App</h1>
+        </header>
+        <div class="todo-container">
+            <div class="todoForm-box">
+                <form name="todoForm">
+                    <input type="text" name="todo" id="todo" placeholder="Input List">
+                    <button type="submit" style="display: inline-block;">Add</button>
+                </form>
+            </div>
+            <div class="hr">
+                <hr>
+            </div>
+            <div class="search-box">
+                <input type="text" name="search" id="search">
+                <button type="button" style="display: inline-block;">search</button>
+            </div>
+            <main class="todolist-list" id="todolist-list">
+                <div class="todo">
+                    <button type="button" style="display: inline-block;">Done</button>
+                    <span>todo desc</span>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script type="module">
+
+        const todolist = [
+            'belajar javascript dasar',
+            'belajar javascript oop',
+            'belajar javascript dom',
+            'belajar html',
+        ];
+
+        function todolistClear() {
+            // get main
+            const todolistList = document.getElementById('todolist-list');
+
+            // remove main first child from div until the condition === false
+            while (todolistList.firstChild) {
+                todolistList.removeChild(todolistList.firstChild);
+            }
+        }
+
+        function removeTodolist(i) {
+            // remove todo depending on i
+            todolist.splice(i, 1);
+            displayTodolist();
+        }
+
+        function addTodolist(i, todo) {
+            // done button
+            const button = document.createElement('button');
+            button.textContent = 'Done';
+            button.onclick = function () {
+                removeTodolist(i);
+            }
+
+            // todo content
+            const span = document.createElement('span');
+            span.textContent = todo;
+
+            // add todo content and done button in todo div
+            const todoDiv = document.createElement('div');
+            todoDiv.className = 'todo';
+            todoDiv.appendChild(button);
+            todoDiv.appendChild(span);
+
+            // add todo div in main
+            const todolistList = document.getElementById('todolist-list');
+            todolistList.appendChild(todoDiv);
+        }
+
+        function displayTodolist() {
+            // clear todolist
+            todolistClear();
+
+            for (let i = 0; i < todolist.length; i++) {
+                const todo = todolist[i];
+
+                // get search id
+                const searchText = document.getElementById('search').value.toLowerCase();
+
+                if (todo.toLowerCase().includes(searchText)) {
+                    addTodolist(i, todo);
+                }
+            }
+        }
+
+        document.forms['todoForm'].onsubmit = function (event) {
+            event.preventDefault();
+
+            const todo = document.forms['todoForm']['todo'].value; // catch todo input
+
+            todolist.push(todo);
+            document.forms['todoForm'].reset();
+
+            displayTodolist();
+        }
+        const searchText = document.getElementById('search');
+        searchText.onkeyup = function () {
+            displayTodolist();
+        }
+        searchText.onkeydown = function () {
+            displayTodolist();
+        }
+
+        displayTodolist();
+
+    </script>
+
+</body>
+
+</html>
